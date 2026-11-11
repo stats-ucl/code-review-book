@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.11">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -36,10 +36,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-79bb3942e891885f9f7af119cd221462.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-0ef93b5586a6d7407cb813e1a271f9ab.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -158,8 +158,15 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#for-students" id="toc-for-students" class="nav-link active" data-scroll-target="#for-students"><span class="header-section-number">7.1</span> For Students:</a></li>
+  <li><a href="#for-lecturer" id="toc-for-lecturer" class="nav-link" data-scroll-target="#for-lecturer"><span class="header-section-number">7.2</span> For Lecturer:</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -183,8 +190,98 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="for-students" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="for-students"><span class="header-section-number">7.1</span> For Students:</h2>
+<ol type="1">
+<li>How many reviews should I do, and who are going to review my work?</li>
+</ol>
+<ul>
+<li>Reviews are assigned randomly; the exact number is defined by the course. Please follow the lecturer’s latest announcements for any special arrangements.</li>
+</ul>
+<ol start="2" type="1">
+<li>I can’t open the repo or didn’t receive an invite. What should I do?</li>
+</ol>
+<ul>
+<li>First, you should confirm that you have been enrolled on Moodle and added to the course’s GitHub organisation. If you are still unable to access the repo, please provide your name, student ID, and GitHub username/email, to the lecturer or teaching team.</li>
+</ul>
+<ol start="3" type="1">
+<li>Why use GitHub for peer review?</li>
+</ol>
+<ul>
+<li>GitHub provides private repositories, standardised issue templates, and an auditable history. This makes it easier to allocate tasks, keep reviewing evidence, and follow up. Becoming familiar with GitHub is also helpful for your future study and work.</li>
+</ul>
+<ol start="4" type="1">
+<li>Can I comment on a single line or a specific code snippet?</li>
+</ol>
+<ul>
+<li>Yes. In the file view, click the line number to get a URL with an anchor like <code>#L42</code> or <code>#L10-L20</code>; paste that link into the Issue to point precisely. Press the <code>y</code> key on the file page to turn it into a permalink so it stays stable after edits. You can also paste a small snippet in the comment and briefly explain the context and suggestion.</li>
+</ul>
+<ol start="5" type="1">
+<li>Do I need to run someone else’s code in my local environment?</li>
+</ol>
+<ul>
+<li>Usually no——running untrusted code can be risky. If the template or course requires execution, use a safe, isolated environment (e.g., virtual environment or container), and follow the notes and sample data provided by the course. If you prefer not to run the code locally, you can use GitHub Codespaces in the browser. Always remember to follow safety guidance of your courses and avoid running suspicious scripts.</li>
+</ul>
+<ol start="6" type="1">
+<li>I can’t see other students’ repos. Is that expected?</li>
+</ol>
+<ul>
+<li>Yes. Repos are private by default and visible only to the author, assigned reviewers, and the teaching team.</li>
+</ul>
+</section>
+<section id="for-lecturer" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="for-lecturer"><span class="header-section-number">7.2</span> For Lecturer:</h2>
+<ol type="1">
+<li>Can we start without having every student’s GitHub username?</li>
+</ol>
+<ul>
+<li>Yes. We can directly invite students to the organisation or specific repos by email. They can accept with a GitHub account that has been verified, or sign up during acceptance.</li>
+</ul>
+<ol start="2" type="1">
+<li>Students report “no access” or can’t open their repo, what should we check first?</li>
+</ol>
+<ul>
+<li>Confirm that their GitHub username in <code>student_list.csv</code> is accurate and that they have accepted the repository invitation sent by GitHub (<code>set_reviewer_permissions()</code> grants collaborator access to both the submitting student and their assigned reviewers). You can verify collaborator status at any time using <code>check_repo_access(repo_name, username, org_name)</code>.</li>
+</ul>
+<ol start="3" type="1">
+<li>How do we control how many reviews each student gives or each submission receives?</li>
+</ol>
+<ul>
+<li>Use the <code>reviews_per_student</code> parameter in <code>run_automation()</code> (or <code>assign_peer_reviewers()</code>), which assigns a balanced circular permutation so each student both gives and receives <code>reviews_per_student</code> distinct reviews. Before full rollout, a dry-run on a small roster is recommended to validate workload and connectivity. It is also recommended to announce this information to all students via email or on the Moodle page.</li>
+</ul>
+<ol start="4" type="1">
+<li>Do we need anonymous peer review on GitHub?</li>
+</ol>
+<ul>
+<li>By default, it is not anonymous because usernames are visible. If anonymity is required, use pseudonymous accounts or collect reviews via a separate form and post summaries back to the repo.</li>
+</ul>
+<ol start="5" type="1">
+<li>After the deadline students keep pushing changes, what version is graded?</li>
+</ol>
+<ul>
+<li>By default, grading is based on the version at the stated deadline. Later changes may remain for students to further learning, but they should not affect grading unless your course policy says otherwise.</li>
+</ul>
+<ol start="6" type="1">
+<li>How do we monitor completion and chase late reviewers?</li>
+</ol>
+<ul>
+<li>Run <code>run_progress_check()</code>, which queries Issues and Pull Requests across all student repositories, generates <code>progress_check_[date].csv</code>, <code>student_progress_[date].csv</code>, and <code>reviewer_progress_[date].csv</code> in <code>output/</code>, saves progress visualizations in <code>output/progress_reports/</code>, and creates targeted reminder emails in <code>output/reminders/</code> for reviewers with incomplete reviews.</li>
+</ul>
+<ol start="7" type="1">
+<li>Some students withdrew or never accepted invites, how do we fix lopsided assignments?</li>
+</ol>
+<ul>
+<li>You should mark those students inactive and reassign only the edges touching them. Keep all other assignments intact to minimise churn.</li>
+</ul>
+<ol start="8" type="1">
+<li>What naming and visibility scheme is recommended?</li>
+</ol>
+<ul>
+<li>By default, <code>run_automation()</code> creates private repositories using the pattern <code>student-{student_id}-{assignment_name}</code> (e.g., <code>student-12345-assignment-1</code>). Personalized repository and reviewer branch links are automatically included in <code>output/student_repo_links.csv</code> and <code>output/email_templates/</code>.</li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -1,6 +1,6 @@
 # Introduction
 
-This guide provides instructions for implementing a code peer review system using GitHub for undergraduate computing modules. With the new automation scripts, most of the setup process is now automated, making implementation much faster and more reliable. The system integrates with Moodle for familiar student submission and leverages GitHub's collaborative features for peer review.
+This guide provides instructions for implementing a code peer review system using GitHub for undergraduate computing modules. With the [`codeinput`](https://github.com/stats-ucl/code-peer-review) R package and automation scripts, most of the setup and monitoring process is automated, making implementation fast, reproducible, and reliable. The system integrates with Moodle for familiar student submission and leverages GitHub's collaborative features for peer review.
 
 ## What is Code Peer Review? Why on Github?
 

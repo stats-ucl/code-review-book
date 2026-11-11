@@ -26,23 +26,23 @@ You are expected to answer some questions about the code you're reviewing, such 
 
 **How to do this:**
 
-1. Click the link your teacher sends you to access the code
+1. Click the link your teacher sends you to access the code (files are located in the `submission/` folder)
 2. Look for a button or link that says "Issues" 
 3. Click "New Issue"
-4. You'll see a template with questions - just fill in your answers
+4. You'll see a Peer Review template with questions - just fill in your answers
 5. When you're finished, click "Submit new issue" to upload it
 
 #### Part 2: Suggest Code Changes (Optional)
 
-If you spot a bug or have an idea for improvement, you can suggest specific changes to the code.
+If you spot a bug or have an idea for improvement, you can suggest specific changes to the code on your assigned reviewer branch (`reviewer-1`, `reviewer-2`, etc.).
 
 **How to do this:**
 
-1. Find the code file you want to change
+1. Find the code file you want to change inside the `submission/` folder
 2. Click the edit button (pencil icon) 
 3. Make your suggested changes
 4. Write a message at the bottom, explaining what you have changed and why
-5. Click "Propose changes"
+5. Click "Propose changes" (or commit to your reviewer branch)
 6. Click "Create pull request"
 7. Add a description of your suggestion, and click "Create pull request" to upload it
 
@@ -66,6 +66,8 @@ If you spot a bug or have an idea for improvement, you can suggest specific chan
 
 
 ## Tips
+
+The [rOpenSci](https://devguide.ropensci.org/softwarereview_intro.html) initiative has some great resources for code peer review. Below are some helpful tips.
 
 ### Common GitHub Terms Explained
 

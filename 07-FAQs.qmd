@@ -16,7 +16,7 @@
 
 4. Can I comment on a single line or a specific code snippet?
 
-- Yes. In the file view, click the line number to get a URL with an anchor like #L42 or #L10-L20; paste that link into the Issue to point precisely. Press the y key on the file page to turn it into a permalink so it stays stable after edits. You can also paste a small snippet in the comment and briefly explain the context and suggestion. （please have check about this, since it's been a while since I last did some annotations and revisions like this.）
+- Yes. In the file view, click the line number to get a URL with an anchor like `#L42` or `#L10-L20`; paste that link into the Issue to point precisely. Press the `y` key on the file page to turn it into a permalink so it stays stable after edits. You can also paste a small snippet in the comment and briefly explain the context and suggestion.
 
 5. Do I need to run someone else’s code in my local environment?
 
@@ -34,11 +34,11 @@
 
 2. Students report “no access” or can’t open their repo, what should we check first?
 
-- In this case, confirm they are in the organisation (no pending invite) and that the invite went to a verified email. If needed, re-send the org/repo invite and add them directly to the repo.
+- Confirm that their GitHub username in `student_list.csv` is accurate and that they have accepted the repository invitation sent by GitHub (`set_reviewer_permissions()` grants collaborator access to both the submitting student and their assigned reviewers). You can verify collaborator status at any time using `check_repo_access(repo_name, username, org_name)`.
 
 3. How do we control how many reviews each student gives or each submission receives?
 
-- Reviews per student and reviews per submission need to be exposed as parameters in your allocation script. Before full rollout, a dry-run on a small roster is needed to validate workload and connectivity. It's also recommended to announce this information to all the students via email or posted on the moodle page so that they can check it.
+- Use the `reviews_per_student` parameter in `run_automation()` (or `assign_peer_reviewers()`), which assigns a balanced circular permutation so each student both gives and receives `reviews_per_student` distinct reviews. Before full rollout, a dry-run on a small roster is recommended to validate workload and connectivity. It is also recommended to announce this information to all students via email or on the Moodle page.
 
 4. Do we need anonymous peer review on GitHub?
 
@@ -50,7 +50,7 @@
 
 6. How do we monitor completion and chase late reviewers?
 
-- To monitor the completion states of students, you can periodically query Issue states across repos (open/closed, and checklist progress), generate a completion report, and mail-merge reminders with direct links to each student’s assigned review Issue.
+- Run `run_progress_check()`, which queries Issues and Pull Requests across all student repositories, generates `progress_check_[date].csv`, `student_progress_[date].csv`, and `reviewer_progress_[date].csv` in `output/`, saves progress visualizations in `output/progress_reports/`, and creates targeted reminder emails in `output/reminders/` for reviewers with incomplete reviews.
 
 7. Some students withdrew or never accepted invites, how do we fix lopsided assignments?
 
@@ -58,6 +58,6 @@
 
 8. What naming and visibility scheme is recommended?
 
-- We recommend to use private repos with a consistent pattern (e.g., module123-a1-s0001). Please announce the naming convention in the invite so that students and scripts can locate repos reliably.
+- By default, `run_automation()` creates private repositories using the pattern `student-{student_id}-{assignment_name}` (e.g., `student-12345-assignment-1`). Personalized repository and reviewer branch links are automatically included in `output/student_repo_links.csv` and `output/email_templates/`.
 
 

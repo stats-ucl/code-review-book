@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.11">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,10 +71,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-79bb3942e891885f9f7af119cd221462.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-0ef93b5586a6d7407cb813e1a271f9ab.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -198,9 +198,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#quick-start-with-automation-scripts" id="toc-quick-start-with-automation-scripts" class="nav-link active" data-scroll-target="#quick-start-with-automation-scripts"><span class="header-section-number">3.1</span> Quick Start with Automation Scripts</a>
+  <li><a href="#quick-start-with-codeinput" id="toc-quick-start-with-codeinput" class="nav-link active" data-scroll-target="#quick-start-with-codeinput"><span class="header-section-number">3.1</span> Quick Start with <code>codeinput</code></a>
   <ul class="collapse">
-  <li><a href="#initial-setup-one-time" id="toc-initial-setup-one-time" class="nav-link" data-scroll-target="#initial-setup-one-time"><span class="header-section-number">3.1.1</span> 1. Initial Setup (One-Time)</a></li>
+  <li><a href="#installation-and-initial-setup-one-time" id="toc-installation-and-initial-setup-one-time" class="nav-link" data-scroll-target="#installation-and-initial-setup-one-time"><span class="header-section-number">3.1.1</span> 1. Installation and Initial Setup (One-Time)</a></li>
   <li><a href="#prepare-your-data" id="toc-prepare-your-data" class="nav-link" data-scroll-target="#prepare-your-data"><span class="header-section-number">3.1.2</span> 2. Prepare Your Data</a></li>
   <li><a href="#run-the-automation" id="toc-run-the-automation" class="nav-link" data-scroll-target="#run-the-automation"><span class="header-section-number">3.1.3</span> 3. Run the Automation</a></li>
   <li><a href="#distribute-access-information" id="toc-distribute-access-information" class="nav-link" data-scroll-target="#distribute-access-information"><span class="header-section-number">3.1.4</span> 4. Distribute Access Information</a></li>
@@ -231,32 +231,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="quick-start-with-automation-scripts" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="quick-start-with-automation-scripts"><span class="header-section-number">3.1</span> Quick Start with Automation Scripts</h2>
-<section id="initial-setup-one-time" class="level3" data-number="3.1.1">
-<h3 data-number="3.1.1" class="anchored" data-anchor-id="initial-setup-one-time"><span class="header-section-number">3.1.1</span> 1. Initial Setup (One-Time)</h3>
-<p><strong>Download and organize the automation scripts:</strong></p>
-<pre><code>project_folder/
-├── setup_config.R
-├── main_automation_script.R
-├── github_functions.R
-├── file_management.R
-├── monitor_progress.R
-└── README.md</code></pre>
-<p><strong>Run the setup script:</strong></p>
+<p>This section provides a <strong>step-by-step quick start</strong> using the <code>codeinput</code> R package.<br>
+Follow the five steps below to move from initial setup to progress monitoring.</p>
+<hr>
+<section id="quick-start-with-codeinput" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="quick-start-with-codeinput"><span class="header-section-number">3.1</span> Quick Start with <code>codeinput</code></h2>
+<section id="installation-and-initial-setup-one-time" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="installation-and-initial-setup-one-time"><span class="header-section-number">3.1.1</span> 1. Installation and Initial Setup (One-Time)</h3>
+<p>First, install the <code>codeinput</code> package from GitHub if you haven’t already:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"devtools"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"https://github.com/stats-ucl/code-peer-review"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next, load the package and run the interactive setup function in your project directory:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In RStudio/R console</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"setup_config.R"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(codeinput)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">run_setup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This automated setup will: - Install required R packages - Guide you through GitHub token creation - Create necessary folder structure - Generate sample configuration files - Validate your setup</p>
+<p>This automated setup will:</p>
+<ul>
+<li>Check and install required R packages</li>
+<li>Guide you through GitHub Personal Access Token (PAT) configuration (<code>gitcreds</code> or <code>.Renviron</code>)</li>
+<li>Create the project directory structure (<code>submissions/</code>, <code>output/</code>, <code>output/email_templates/</code>, <code>output/progress_reports/</code>, and <code>output/reminders/</code>)</li>
+<li>Generate a sample <code>student_list.csv</code>, <code>.gitignore</code>, and starter scripts (<code>main_automation_script.R</code> and <code>monitor_progress_script.R</code>)</li>
+<li>Validate your configuration with <code>validate_configuration()</code></li>
+</ul>
 </section>
 <section id="prepare-your-data" class="level3" data-number="3.1.2">
 <h3 data-number="3.1.2" class="anchored" data-anchor-id="prepare-your-data"><span class="header-section-number">3.1.2</span> 2. Prepare Your Data</h3>
-<p><strong>Create your student list (<code>student_list.csv</code>):</strong></p>
+<p>Create your student list (<code>student_list.csv</code>) in the following format:</p>
 <pre class="csv"><code>student_id,github_username,ucl_email,name
 12345,alice_github,alice.smith@ucl.ac.uk,Alice Smith
 12346,bob_jones,bob.jones@ucl.ac.uk,Bob Jones
 12347,carol_white,carol.white@ucl.ac.uk,Carol White</code></pre>
-<p><strong>Organize student submissions:</strong> Download submissions from Moodle and organize them in folders:</p>
+<p>To organize student submissions, download their submissions from Moodle and place them into <code>submissions/[student_id]/</code> folders:</p>
 <pre><code>submissions/
 ├── 12345/
 │   ├── analysis.R
@@ -267,26 +274,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="run-the-automation" class="level3" data-number="3.1.3">
 <h3 data-number="3.1.3" class="anchored" data-anchor-id="run-the-automation"><span class="header-section-number">3.1.3</span> 3. Run the Automation</h3>
-<p><strong>Configure the main script:</strong> Edit these variables in <code>main_automation_script.R</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ORG_NAME <span class="ot">&lt;-</span> <span class="st">"UCL-StatSci-STAT0001-2025"</span>      <span class="co"># Your GitHub organization</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ASSIGNMENT_NAME <span class="ot">&lt;-</span> <span class="st">"assignment-1"</span>            <span class="co"># Current assignment</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>LOCAL_SUBMISSIONS_PATH <span class="ot">&lt;-</span> <span class="st">"submissions/"</span>     <span class="co"># Path to submissions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Execute the automation:</strong></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"main_automation_script.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>What happens automatically:</strong> - ✅ Creates private repositories for each student - ✅ Sets up reviewer branches and issue templates - ✅ Uploads all student files - ✅ Randomly assigns peer reviewers (2 per student) - ✅ Sets repository permissions - ✅ Generates email templates and distribution URLs</p>
+<p>Run <code>run_automation()</code> directly (or edit and source the generated <code>main_automation_script.R</code>):</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(codeinput)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">run_automation</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">org_name =</span> <span class="st">"UCL-StatSci-STAT0001-2025"</span>,      <span class="co"># Your GitHub organization</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">assignment_name =</span> <span class="st">"assignment-1"</span>,            <span class="co"># Current assignment identifier</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">student_list_path =</span> <span class="st">"student_list.csv"</span>,      <span class="co"># Path to student list CSV</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">submissions_path =</span> <span class="st">"submissions"</span>,            <span class="co"># Path to student submission folders</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_dir =</span> <span class="st">"output"</span>,                       <span class="co"># Directory for generated output files</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">reviews_per_student =</span> <span class="dv">2</span>,                     <span class="co"># Number of peer reviews per student</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">deadline =</span> <span class="st">"2025-04-15"</span>,                     <span class="co"># Peer review deadline</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">instructor_name =</span> <span class="st">"Course Instructor"</span>        <span class="co"># Name for email sign-off</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>What happens automatically:</p>
+<ul>
+<li>✅ Private repositories (<code>student-{student_id}-{assignment_name}</code>) are created for each student</li>
+<li>✅ <code>README.md</code>, <code>submission/</code> folder, <code>.github/ISSUE_TEMPLATE/peer-review.md</code>, and the <code>peer-review</code> label are set up</li>
+<li>✅ All student submission files are uploaded to <code>submission/</code></li>
+<li>✅ Reviewer branches (<code>reviewer-1</code>, <code>reviewer-2</code>, …) are created from the uploaded submission</li>
+<li>✅ Peer reviewers are randomly assigned in a balanced design (each student gives and receives <code>reviews_per_student</code> distinct reviews)</li>
+<li>✅ Repository collaborator permissions are granted to both the submitting student and their assigned reviewers</li>
+<li>✅ Distribution CSVs and personalized email templates are generated in <code>output/</code></li>
+</ul>
 </section>
 <section id="distribute-access-information" class="level3" data-number="3.1.4">
 <h3 data-number="3.1.4" class="anchored" data-anchor-id="distribute-access-information"><span class="header-section-number">3.1.4</span> 4. Distribute Access Information</h3>
-<p>The script generates several files: - <code>student_repo_links.csv</code> - Repository URLs for each student - <code>email_templates/</code> - Personalized emails for each student - <code>reviewer_assignments.csv</code> - Complete assignment matrix</p>
-<p><strong>Send emails to students:</strong> Use the generated email templates or import the CSV data into your email system for mail merge.</p>
+<p>All generated distribution files are saved inside the <code>output/</code> directory:</p>
+<ul>
+<li><code>output/student_repo_links.csv</code> - Repository URLs (<code>html_url</code>, <code>issues_url</code>, <code>pulls_url</code>) for each student</li>
+<li><code>output/reviewer_assignments.csv</code> - Complete balanced assignment matrix (who reviews whom, including branch review URLs)</li>
+<li><code>output/teacher_summary.csv</code> - Complete overview for instructors</li>
+<li><code>output/email_templates/</code> - Individual <code>email_[student_id].txt</code> files for each student and <code>email_merge_data.csv</code> for bulk mail merge</li>
+</ul>
+<p>You can then <strong>send emails to students</strong> either by using the individual email templates or by importing <code>output/email_templates/email_merge_data.csv</code> into your email system for mail merge.</p>
 </section>
 <section id="monitor-progress" class="level3" data-number="3.1.5">
 <h3 data-number="3.1.5" class="anchored" data-anchor-id="monitor-progress"><span class="header-section-number">3.1.5</span> 5. Monitor Progress</h3>
-<p><strong>Track completion in real-time:</strong></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"monitor_progress.R"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>report <span class="ot">&lt;-</span> <span class="fu">run_progress_check</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>What you get:</strong> - Completion rates across all students - Visual progress charts - Detailed analytics - Automated reminder emails for incomplete reviews</p>
-<p>The section below is a very detailed explanation of the workflow. If you have any trouble executing the above procedure, please refer to the section below, and the <code>README.md</code> document under the setup folder.</p>
+<p>To track completion in real-time (or via <code>monitor_progress_script.R</code>), run:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(codeinput)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>report <span class="ot">&lt;-</span> <span class="fu">run_progress_check</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">org_name =</span> <span class="st">"UCL-StatSci-STAT0001-2025"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">assignment_name =</span> <span class="st">"assignment-1"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">student_list_path =</span> <span class="st">"student_list.csv"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_dir =</span> <span class="st">"output"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">deadline =</span> <span class="st">"2025-04-15"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">instructor_name =</span> <span class="st">"Course Instructor"</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>What you will get in <code>output/</code>:</p>
+<ul>
+<li><code>output/progress_check_[date].csv</code> - Repository-level progress metrics</li>
+<li><code>output/student_progress_[date].csv</code> - Student-level completion summary (reviews received)</li>
+<li><code>output/reviewer_progress_[date].csv</code> - Reviewer-level completion summary (reviews performed)</li>
+<li><code>output/progress_reports/</code> - Visual progress plots (<code>completion_distribution.png</code> and <code>issues_vs_pulls.png</code>)</li>
+<li><code>output/reminders/</code> - Targeted reminder emails (<code>reminder_[reviewer_student_id].txt</code>) for reviewers with pending reviews</li>
+</ul>
+<p>The next chapter provides a detailed explanation of the workflow, customization options, and troubleshooting.</p>
 
 
 </section>

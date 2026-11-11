@@ -12,7 +12,7 @@ To create your one-time organization, follow the steps below:
 4. Set to "Private" initially
 5. Add description and contact information
 
-The automation handles **all** repository creation and configuration.
+The `codeinput` package handles **all** repository creation and configuration.
 
 ### Assessment Preparation
 
@@ -20,7 +20,7 @@ The automation handles **all** repository creation and configuration.
 
 **Issue Templates** (automatically created):
 
-The scripts create structured peer review templates with sections for:
+The `create_github_templates()` function uploads `.github/ISSUE_TEMPLATE/peer-review.md` and creates the `peer-review` issue label in each student repository, providing structured sections for:
 
 - Code quality assessment
 - Correctness evaluation
@@ -29,10 +29,11 @@ The scripts create structured peer review templates with sections for:
 
 **Marking Criteria Integration:**
 
-Customize the issue template in `github_functions.R` to align with your specific marking criteria:
+If you are using a customized fork of the package, you can edit `peer_review_template` in `create_github_templates()` (`R/github_functions.R`) to align with your specific marking criteria:
 
 ```r
-# Edit the peer_review_template variable to match your assessment goals
+# Customize the peer_review_template variable in create_github_templates()
+# to match your assessment goals
 ```
 
 **Assignment Instructions:**
@@ -43,10 +44,6 @@ Prepare clear instructions that reference:
 - Timeline and deadlines
 - Technical support resources
 - Assessment weighting (if applicable)
-
-### Student Data Collection
-
-**Collect GitHub usernames efficiently:**
 
 ### Student Data Collection
 
@@ -74,9 +71,20 @@ Collect usernames during the first computer lab session.
 **Automated Process (Recommended):**
 
 ```r
+library(codeinput)
+
 # Place files in submissions/[student_id]/ folders
-# Run the main automation script
-source("main_automation_script.R")
+# Run the main automation workflow (or source("main_automation_script.R"))
+results <- run_automation(
+  org_name = "UCL-StatSci-STAT0001-2025",
+  assignment_name = "assignment-1",
+  student_list_path = "student_list.csv",
+  submissions_path = "submissions",
+  output_dir = "output",
+  reviews_per_student = 2,
+  deadline = "2025-04-15",
+  instructor_name = "Course Instructor"
+)
 ```
 
 **Manual Process (Backup Method):**
@@ -92,14 +100,23 @@ If automation fails, you can still upload files manually:
 **Monitoring Student Engagement:**
 
 ```r
-# Run daily or weekly progress checks
-source("monitor_progress.R")
-run_progress_check()
+library(codeinput)
 
-# Generates:
-# - Completion rate summaries
-# - Individual student progress
-# - Reminder emails for laggards
+# Run daily or weekly progress checks (or source("monitor_progress_script.R"))
+report <- run_progress_check(
+  org_name = "UCL-StatSci-STAT0001-2025",
+  assignment_name = "assignment-1",
+  output_dir = "output",
+  deadline = "2025-04-15",
+  instructor_name = "Course Instructor"
+)
+
+# Generates in output/:
+# - Repository progress summary (progress_check_[date].csv)
+# - Student completion summary (student_progress_[date].csv)
+# - Reviewer completion summary (reviewer_progress_[date].csv)
+# - Progress plots in output/progress_reports/
+# - Targeted reminder emails in output/reminders/
 ```
 
 **Facilitating Quality Reviews:**
@@ -115,14 +132,14 @@ run_progress_check()
 
 **Quantitative Measures:**
 
-- Completion of required review templates
-- Timeliness of feedback submission
-- Engagement with issue discussions
+- Completion of required review templates (tracked via `reviewer_progress_[date].csv`)
+- Timeliness of feedback submission (`last_activity` in `progress_check_[date].csv`)
+- Engagement with issue discussions and pull requests
 
 **Qualitative Assessment:**
 
 ```r
-# Use monitoring script to extract review content
+# Use get_repo_issues() and get_repo_pulls() to inspect review content
 # Assess based on:
 # - Constructiveness of feedback
 # - Specificity of observations
@@ -136,50 +153,85 @@ run_progress_check()
 
 **Common Issues and Solutions:**
 
-**Script Failures:**
+**GitHub Authentication or Script Failures:**
+
+Ensure your GitHub PAT has the required scopes (`repo`, `admin:org`, `user`) and is stored via `gitcreds` or `.Renviron`:
 
 ```r
-# Check configuration
-source("setup_config.R")
+library(codeinput)
+
+# Check local configuration (token, student_list.csv, submissions/)
 validate_configuration()
 
-# Test GitHub connection
-test_github_connection()
+# Test GitHub API connection and organization access
+test_github_connection("UCL-StatSci-STAT0001-2025")
 ```
+
+**Error Recovery (Idempotent Re-runs):**
+
+If `run_automation()` is interrupted midway:
+1. Review the console output for specific error messages and resolve the underlying issue.
+2. Re-run `run_automation()`. Repository creation (`create_student_repo()`), file uploads (`put_repo_file()`), issue label creation, and reviewer branch updates (`create_reviewer_branches()`) are all idempotent and will safely update or skip existing resources without failing.
 
 **Student Access Problems:**
 
-- Verify GitHub usernames in `student_list.csv`
-- Check repository permissions in GitHub organization
-- Use monitoring script to identify access issues
+- Verify GitHub usernames in `student_list.csv` (`validate_student_data()` checks for missing usernames and duplicate IDs)
+- Confirm that students have accepted the repository invitation sent by GitHub (`set_reviewer_permissions()` grants collaborator access to both the submitting author and their assigned reviewers)
+- Use `check_repo_access(repo_name, username, org_name)` to verify collaborator access for a specific student
 
 **File Upload Issues:**
 
-- Check file sizes (GitHub limit: 100MB per file)
-- Verify file paths in submissions folders
+- Check file sizes (GitHub API limit: 100MB per file)
+- Verify file paths in `submissions/[student_id]/` folders
 - Review console output for specific error messages
 
 **Incomplete Reviews:**
 
 ```r
-# Generate targeted reminders
-source("monitor_progress.R")
-run_progress_check()  # Creates reminder emails automatically
+library(codeinput)
+
+# Generate targeted reminders in output/reminders/ for reviewers with pending reviews
+run_progress_check(
+  org_name = "UCL-StatSci-STAT0001-2025",
+  assignment_name = "assignment-1",
+  output_dir = "output",
+  deadline = "2025-04-15",
+  instructor_name = "Course Instructor"
+)
 ```
+
+**Security Considerations:**
+
+- Never commit your GitHub token or student data to version control
+- `run_setup()` automatically creates a `.gitignore` that excludes `.Renviron`, `student_list.csv`, `submissions/`, and `output/`
+- Regularly rotate your GitHub Personal Access Tokens and remove collaborators who no longer need access
 
 ### Advanced Features
 
 **Customizing Review Assignments:**
 
-Edit `file_management.R` to modify reviewer assignment logic:
+Use parameters in `run_automation()` or call `assign_peer_reviewers()` directly:
 
 ```r
-# Change number of reviewers per student
-assign_peer_reviewers(students, reviews_per_student = 3)
+library(codeinput)
 
-# Implement stratified assignment (e.g., by ability level)
-# Custom logic can be added to the assign_peer_reviewers function
+# Change number of reviewers per student and set a random seed for reproducibility
+assignments <- assign_peer_reviewers(
+  students,
+  reviews_per_student = 3,
+  seed = 42
+)
+
+# Or pass directly to run_automation():
+results <- run_automation(
+  org_name = "UCL-StatSci-STAT0001-2025",
+  assignment_name = "assignment-1",
+  reviews_per_student = 3,
+  seed = 42
+)
 ```
+
+`assign_peer_reviewers()` uses a balanced circular permutation design so that every student both gives and receives exactly `reviews_per_student` distinct reviews, with no self-reviews or duplicate reviewer pairs.
 
 **Integration with Continuous Assessment:**
 
@@ -189,10 +241,10 @@ assign_peer_reviewers(students, reviews_per_student = 3)
 
 **Scaling for Large Classes:**
 
-The automation scripts handle classes up to 200+ students efficiently:
+The automation functions handle classes up to 200+ students efficiently:
 - Batch processing minimizes API rate limits
 - Progress monitoring scales automatically
-- Email generation handles large volumes
+- Email generation (`output/email_templates/email_merge_data.csv`) handles large volumes
 
 ### Alternative Workflows
 
@@ -202,7 +254,7 @@ Consider having all students review all submissions for maximum learning.
 
 **For Advanced Students:**
 
-- Enable pull request reviews in addition to issues
+- Enable pull request reviews in addition to issues (using the automatically created `reviewer-1`, `reviewer-2`, ... branches)
 - Encourage code improvement suggestions
 - Allow collaborative debugging sessions
 
@@ -221,11 +273,11 @@ Consider having all students review all submissions for maximum learning.
 **Automated Metrics:**
 
 ```r
-# Progress monitoring provides:
-# - Completion rates
-# - Engagement timing
-# - Issue/PR creation patterns
-# - Student interaction levels
+# run_progress_check() provides:
+# - Overall, student-level, and reviewer-level completion rates
+# - Last activity timestamps across issues and pull requests
+# - Issue vs. Pull Request counts per repository
+# - Visual summary charts in output/progress_reports/
 ```
 
 **Student Feedback:**
@@ -245,7 +297,7 @@ Consider having all students review all submissions for maximum learning.
 **Based on Student Feedback:**
 
 - Adjust issue template questions
-- Modify review assignment algorithms
+- Modify review assignment parameters
 - Update student guidance materials
 - Refine technical support processes
 
@@ -263,7 +315,7 @@ Consider having all students review all submissions for maximum learning.
 ### Technical Infrastructure
 
 - **GitHub Organization**: Free for educational use
-- **Automation Scripts**: Provided, no additional cost
+- **`codeinput` R Package**: Open-source, installed from GitHub
 - **R/RStudio**: Free, open-source software
 - **Computing Resources**: Minimal - runs on standard academic workstations
 
@@ -271,7 +323,7 @@ Consider having all students review all submissions for maximum learning.
 
 **Initial Setup (First Time):**
 
-- Script configuration: 30 minutes
+- Package installation and setup (`run_setup()`): 30 minutes
 - GitHub organization setup: 15 minutes
 - Student data preparation: 45 minutes
 - **Total: ~1.5 hours**
@@ -279,8 +331,8 @@ Consider having all students review all submissions for maximum learning.
 **Per Assignment (Ongoing):**
 
 - File organization: 15 minutes
-- Running automation: 5 minutes
-- Monitoring and reminders: 10 minutes weekly
+- Running `run_automation()`: 5 minutes
+- Monitoring (`run_progress_check()`) and reminders: 10 minutes weekly
 - **Total: ~20 minutes + weekly monitoring**
 
 ### Support Requirements
@@ -294,7 +346,7 @@ Consider having all students review all submissions for maximum learning.
 
 **For Teaching Staff:**
 
-- Train additional instructors on script usage
+- Train additional instructors on `codeinput` package usage
 - Establish backup procedures for technical failures
 - Document customizations and local adaptations
 - Plan for software updates and maintenance
@@ -330,9 +382,9 @@ Consider having all students review all submissions for maximum learning.
 
 **Script Failures:**
 
-- Revert to manual repository creation
-- Use provided troubleshooting guide
-- Contact technical support resources
+- Re-run `run_automation()` after resolving the error (functions are idempotent)
+- Use `validate_configuration()` and `test_github_connection()` to diagnose issues
+- Revert to manual repository creation if necessary
 - Document issues for future improvement
 
 **Student Technical Difficulties:**
@@ -342,4 +394,5 @@ Consider having all students review all submissions for maximum learning.
 - Consider accommodation for accessibility needs
 - Maintain flexible deadline policies
 
-Remember: The automation scripts handle the complex technical setup, allowing you to focus on the pedagogical aspects of peer review and student learning outcomes. Start small with one assignment, gather feedback, and iterate based on your experience and student needs.
+Remember: The `codeinput` package handles the complex technical setup, allowing you to focus on the pedagogical aspects of peer review and student learning outcomes. Start small with one assignment, gather feedback, and iterate based on your experience and student needs.
+

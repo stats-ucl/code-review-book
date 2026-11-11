@@ -1,40 +1,37 @@
 # Overview for Teachers
 
-This section provides a **step-by-step quick start** by using the automation scripts.  
-Follow the five steps below to move from setup to monitoring.
+This section provides a **step-by-step quick start** using the `codeinput` R package.  
+Follow the five steps below to move from initial setup to progress monitoring.
 
 ---
-## Quick Start with Automation Scripts
+## Quick Start with `codeinput`
 
-### 1. Initial Setup (One-Time)
+### 1. Installation and Initial Setup (One-Time)
 
-The first step is to download and organize all the automation scripts, including:
+First, install the `codeinput` package from GitHub if you haven't already:
 
-```
-project_folder/
-├── setup_config.R
-├── main_automation_script.R
-├── github_functions.R
-├── file_management.R
-├── monitor_progress.R
-└── README.md
+```r
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+devtools::install_github("https://github.com/stats-ucl/code-peer-review")
 ```
 
-After all files are downloaded, run the **setup script**:
+Next, load the package and run the interactive setup function in your project directory:
 
 ```r
 # In RStudio/R console
-source("setup_config.R")
+library(codeinput)
 run_setup()
 ```
 
 This automated setup will:
 
-- Install required R packages
-- Guide you through GitHub token creation
-- Create necessary folder structure
-- Generate sample configuration files
-- Validate your setup
+- Check and install required R packages
+- Guide you through GitHub Personal Access Token (PAT) configuration (`gitcreds` or `.Renviron`)
+- Create the project directory structure (`submissions/`, `output/`, `output/email_templates/`, `output/progress_reports/`, and `output/reminders/`)
+- Generate a sample `student_list.csv`, `.gitignore`, and starter scripts (`main_automation_script.R` and `monitor_progress_script.R`)
+- Validate your configuration with `validate_configuration()`
 
 ### 2. Prepare Your Data
 
@@ -47,7 +44,7 @@ student_id,github_username,ucl_email,name
 12347,carol_white,carol.white@ucl.ac.uk,Carol White
 ```
 
-To organize student submissions, download their submissions from Moodle and organize them in folders:
+To organize student submissions, download their submissions from Moodle and place them into `submissions/[student_id]/` folders:
 
 ```
 submissions/
@@ -61,54 +58,69 @@ submissions/
 
 ### 3. Run the Automation
 
-**Configure the main script:**
+Run `run_automation()` directly (or edit and source the generated `main_automation_script.R`):
 
-Edit these variables in `main_automation_script.R`:
 ```r
-ORG_NAME <- "UCL-StatSci-STAT0001-2025"      # Your GitHub organization
-ASSIGNMENT_NAME <- "assignment-1"            # Current assignment
-LOCAL_SUBMISSIONS_PATH <- "submissions/"     # Path to submissions
+library(codeinput)
+
+results <- run_automation(
+  org_name = "UCL-StatSci-STAT0001-2025",      # Your GitHub organization
+  assignment_name = "assignment-1",            # Current assignment identifier
+  student_list_path = "student_list.csv",      # Path to student list CSV
+  submissions_path = "submissions",            # Path to student submission folders
+  output_dir = "output",                       # Directory for generated output files
+  reviews_per_student = 2,                     # Number of peer reviews per student
+  deadline = "2025-04-15",                     # Peer review deadline
+  instructor_name = "Course Instructor"        # Name for email sign-off
+)
 ```
 
-Then, execute the following automation:
-```r
-source("main_automation_script.R")
-```
+What happens automatically:
 
-What will happen automatically:
-
-- ✅ private repositories are created for each student
-- ✅ reviewer branches and issue templates are set up
-- ✅ all student files are uploaded
-- ✅ peer reviewers (2 per student) are randomly assigned
-- ✅ repository permissions are set
-- ✅ email templates and distribution URLs are generated
+- ✅ Private repositories (`student-{student_id}-{assignment_name}`) are created for each student
+- ✅ `README.md`, `submission/` folder, `.github/ISSUE_TEMPLATE/peer-review.md`, and the `peer-review` label are set up
+- ✅ All student submission files are uploaded to `submission/`
+- ✅ Reviewer branches (`reviewer-1`, `reviewer-2`, ...) are created from the uploaded submission
+- ✅ Peer reviewers are randomly assigned in a balanced design (each student gives and receives `reviews_per_student` distinct reviews)
+- ✅ Repository collaborator permissions are granted to both the submitting student and their assigned reviewers
+- ✅ Distribution CSVs and personalized email templates are generated in `output/`
 
 ### 4. Distribute Access Information
 
-By this point, the script would have generated several files. They are:
+All generated distribution files are saved inside the `output/` directory:
 
-- `student_repo_links.csv` - Repository URLs for each student
-- `email_templates/` - Personalized emails for each student
-- `reviewer_assignments.csv` - Complete assignment matrix
+- `output/student_repo_links.csv` - Repository URLs (`html_url`, `issues_url`, `pulls_url`) for each student
+- `output/reviewer_assignments.csv` - Complete balanced assignment matrix (who reviews whom, including branch review URLs)
+- `output/teacher_summary.csv` - Complete overview for instructors
+- `output/email_templates/` - Individual `email_[student_id].txt` files for each student and `email_merge_data.csv` for bulk mail merge
 
-You then need to **send emails to students** by either using the generated email templates, or import the CSV data into your email system for mail merge.
+You can then **send emails to students** either by using the individual email templates or by importing `output/email_templates/email_merge_data.csv` into your email system for mail merge.
 
 ### 5. Monitor Progress
 
-To track completion in real-time, run:
+To track completion in real-time (or via `monitor_progress_script.R`), run:
 
 ```r
-source("monitor_progress.R")
-report <- run_progress_check()
+library(codeinput)
+
+report <- run_progress_check(
+  org_name = "UCL-StatSci-STAT0001-2025",
+  assignment_name = "assignment-1",
+  student_list_path = "student_list.csv",
+  output_dir = "output",
+  deadline = "2025-04-15",
+  instructor_name = "Course Instructor"
+)
 ```
 
-What you will get:
+What you will get in `output/`:
 
-- Completion rates across all students
-- Visual progress charts
-- Detailed analytics
-- Automated reminder emails for incomplete reviews
+- `output/progress_check_[date].csv` - Repository-level progress metrics
+- `output/student_progress_[date].csv` - Student-level completion summary (reviews received)
+- `output/reviewer_progress_[date].csv` - Reviewer-level completion summary (reviews performed)
+- `output/progress_reports/` - Visual progress plots (`completion_distribution.png` and `issues_vs_pulls.png`)
+- `output/reminders/` - Targeted reminder emails (`reminder_[reviewer_student_id].txt`) for reviewers with pending reviews
 
 
-Next section is a detailed explanation of the workflow. If you have any trouble executing the above procedure, please refer to it and the `README.md` document under the `setup` folder.
+The next chapter provides a detailed explanation of the workflow, customization options, and troubleshooting.
+

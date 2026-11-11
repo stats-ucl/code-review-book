@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.11">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -37,10 +71,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-79bb3942e891885f9f7af119cd221462.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-0ef93b5586a6d7407cb813e1a271f9ab.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -165,6 +199,9 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites"><span class="header-section-number">2.1</span> Prerequisites</a></li>
+  <li><a href="#github-setup" id="toc-github-setup" class="nav-link" data-scroll-target="#github-setup"><span class="header-section-number">2.2</span> GitHub Setup</a></li>
+  <li><a href="#package-installation" id="toc-package-installation" class="nav-link" data-scroll-target="#package-installation"><span class="header-section-number">2.3</span> Package Installation</a></li>
+  <li><a href="#github-authentication-in-r" id="toc-github-authentication-in-r" class="nav-link" data-scroll-target="#github-authentication-in-r"><span class="header-section-number">2.4</span> GitHub Authentication in R</a></li>
   </ul>
 </nav>
     </div>
@@ -199,6 +236,43 @@ ul.task-list li input[type="checkbox"] {
 <li>Student list with GitHub usernames</li>
 <li>Assessment materials and marking criteria prepared</li>
 </ul>
+</section>
+<section id="github-setup" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="github-setup"><span class="header-section-number">2.2</span> GitHub Setup</h2>
+<ol type="1">
+<li><strong>GitHub Organization</strong>: Create or have access to a GitHub organization for your module (e.g., <code>UCL-StatSci-STAT0001-2025</code>).</li>
+<li><strong>Personal Access Token (PAT)</strong>: Create a GitHub Personal Access Token with the following permissions (scopes):
+<ul>
+<li><code>repo</code> (full control of private repositories)</li>
+<li><code>admin:org</code> (full control of organizations and teams)</li>
+<li><code>user</code> (update user data)</li>
+</ul></li>
+</ol>
+</section>
+<section id="package-installation" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="package-installation"><span class="header-section-number">2.3</span> Package Installation</h2>
+<p>Install the <code>codeinput</code> package from GitHub in your R console:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install devtools if you don't already have it</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"devtools"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Install the codeinput package from GitHub</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"https://github.com/stats-ucl/code-peer-review"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="github-authentication-in-r" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="github-authentication-in-r"><span class="header-section-number">2.4</span> GitHub Authentication in R</h2>
+<p>You can configure your GitHub token interactively using <code>codeinput::run_setup()</code> or <code>codeinput::setup_github_token()</code>, which supports two methods:</p>
+<p><strong>Option 1: <code>gitcreds</code> credential store (Recommended)</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">create_github_token</span>(<span class="at">scopes =</span> <span class="fu">c</span>(<span class="st">"repo"</span>, <span class="st">"admin:org"</span>, <span class="st">"user"</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>gitcreds<span class="sc">::</span><span class="fu">gitcreds_set</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Option 2: Project <code>.Renviron</code> file</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">edit_r_environ</span>(<span class="at">scope =</span> <span class="st">"project"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the line:</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># GITHUB_TOKEN=your_token_here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To verify your authentication and organization access at any time, run:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(codeinput)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">test_github_connection</span>(<span class="st">"UCL-StatSci-STAT0001-2025"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

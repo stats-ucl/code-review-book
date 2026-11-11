@@ -7,3 +7,51 @@
 - R and RStudio installed
 - Student list with GitHub usernames
 - Assessment materials and marking criteria prepared
+
+## GitHub Setup
+
+1. **GitHub Organization**: Create or have access to a GitHub organization for your module (e.g., `UCL-StatSci-STAT0001-2025`).
+2. **Personal Access Token (PAT)**: Create a GitHub Personal Access Token with the following permissions (scopes):
+   - `repo` (full control of private repositories)
+   - `admin:org` (full control of organizations and teams)
+   - `user` (update user data)
+
+## Package Installation
+
+Install the `codeinput` package from GitHub in your R console:
+
+```r
+# Install devtools if you don't already have it
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+
+# Install the codeinput package from GitHub
+devtools::install_github("https://github.com/stats-ucl/code-peer-review")
+```
+
+## GitHub Authentication in R
+
+You can configure your GitHub token interactively using `codeinput::run_setup()` or `codeinput::setup_github_token()`, which supports two methods:
+
+**Option 1: `gitcreds` credential store (Recommended)**
+
+```r
+usethis::create_github_token(scopes = c("repo", "admin:org", "user"))
+gitcreds::gitcreds_set()
+```
+
+**Option 2: Project `.Renviron` file**
+
+```r
+usethis::edit_r_environ(scope = "project")
+# Add the line:
+# GITHUB_TOKEN=your_token_here
+```
+
+To verify your authentication and organization access at any time, run:
+
+```r
+library(codeinput)
+test_github_connection("UCL-StatSci-STAT0001-2025")
+```
