@@ -1,3 +1,5 @@
 # Preface {.unnumbered}
 
 Hello! :wave:
+
+![](academia_vs_business.jpg){fig-align="center"}
