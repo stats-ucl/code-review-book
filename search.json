@@ -14,7 +14,7 @@
     "href": "01-introduction.html",
     "title": "1  Introduction",
     "section": "",
-    "text": "1.1 What is Code Peer Review? Why on Github?\nCode peer review is when you look at another student’s code and give them helpful feedback, just like when you review each other’s essays. At the same time, other students will review your code and give you feedback. This helps everyone learn from each other and improve their coding skills. Learning to review code and use GitHub will help you in your career because:",
+    "text": "1.1 What is Code Peer Review? Why on Github?\nThis guide provides instructions for implementing a code peer review system using GitHub for undergraduate computing modules. With the codeinput R package and automation scripts, most of the setup and monitoring process is automated, making implementation fast, reproducible, and reliable. The system integrates with Moodle for familiar student submission and leverages GitHub’s collaborative features for peer review.\nCode peer review is when you look at another student’s code and give them helpful feedback, just like when you review each other’s essays. At the same time, other students will review your code and give you feedback. This helps everyone learn from each other and improve their coding skills. Learning to review code and use GitHub will help you in your career because:",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
@@ -94,7 +94,7 @@
     "href": "03-overview-for-teachers.html",
     "title": "3  Overview for Teachers",
     "section": "",
-    "text": "3.1 Quick Start with codeinput",
+    "text": "3.1 Quick Start with codeinput\nThis section provides a step-by-step quick start using the codeinput R package.\nFollow the five steps below to move from initial setup to progress monitoring.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Overview for Teachers</span>"
     ]
