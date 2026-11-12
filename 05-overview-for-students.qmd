@@ -4,11 +4,11 @@
 
 ### What Happens Behind the Scenes
 
-1. Your teacher will create a private space (called a "repository" or "repo") for your code on GitHub
-2. Your code will be automatically moved from Moodle to this private space
-3. Two other students will be randomly assigned to review your code
-4. You will also be chosen to review the works of two other students
-5. Everything is kept private - only you, your reviewers, and your teacher can see your code!
+1.  Your teacher will create a private space (called a "repository" or "repo") for your code on GitHub
+2.  Your code will be automatically moved from Moodle to this private space
+3.  Two other students will be randomly assigned to review your code
+4.  You will also be chosen to review the works of two other students
+5.  Everything is kept private - only you, your reviewers, and your teacher can see your code!
 
 ### Your Role as a Reviewer
 
@@ -26,35 +26,53 @@ You are expected to answer some questions about the code you're reviewing, such 
 
 **How to do this:**
 
-1. Click the link your teacher sends you to access the code (files are located in the `submission/` folder)
-2. Look for a button or link that says "Issues" 
-3. Click "New Issue"
-4. You'll see a Peer Review template with questions - just fill in your answers
-5. When you're finished, click "Submit new issue" to upload it
+1.  Click the link your teacher sends you to access the code (files are located in the `submission/` folder)
+
+2.  Look for a button or link that says "Issues"
+
+3.  Click "New Issue"
+
+4.  You'll see a Peer Review template with questions - just fill in your answers. If you don't see the template you can select from the Choose s different template link.
+
+5.  When you're finished, click "Submit new issue" to upload it
+
+    ![](screenshots/Screenshot%202026-11-11%20203734.png)
 
 #### Part 2: Suggest Code Changes (Optional)
 
-If you spot a bug or have an idea for improvement, you can suggest specific changes to the code on your assigned reviewer branch (`reviewer-1`, `reviewer-2`, etc.).
+If you spot a bug or have an idea for improvement, you can suggest specific changes to the code on your assigned reviewer branch (`reviewer-1`, `reviewer-2`, etc.). There are two ways you can do this.
 
-**How to do this:**
+**How to do this with Pull Requests (PRs):**
 
-1. Find the code file you want to change inside the `submission/` folder
-2. Click the edit button (pencil icon) 
-3. Make your suggested changes
-4. Write a message at the bottom, explaining what you have changed and why
-5. Click "Propose changes" (or commit to your reviewer branch)
-6. Click "Create pull request"
-7. Add a description of your suggestion, and click "Create pull request" to upload it
+1.  Find the code file you want to change inside the `submission/` folder ![submission folder](screenshots/Screenshot%202026-11-11%20203039.png)
 
+2.  Click the edit button (pencil icon)
 
+3.  Make your suggested changes
+
+4.  Write a message at the bottom, explaining what you have changed and why
+
+5.  Click "Propose changes" (or commit to your reviewer branch)
+
+![](screenshots/Screenshot%202026-11-11%20203945.png)Click "Create pull request"
+
+7.  Add a description of your suggestion, and click "Create pull request" to upload it
+
+**How to do this with Issues:**
+
+1.  Click on the right margin of the code panel and select Reference in new issue.
+
+![](screenshots/Screenshot%202026-11-11%20203533.png)
+
+2.  You will open a new issue screen with a link to the line of code included.
 
 ## After the Review: Receiving Feedback on Your Code
 
 ### Where to Find Your Reviews
 
-1. Go to your private repository (your teacher will send you the link)
-2. Click on "Issues" to see the review forms your peers filled out
-3. Click on "Pull requests" to see any code changes they suggested
+1.  Go to your private repository (your teacher will send you the link)
+2.  Click on "Issues" to see the review forms your peers filled out
+3.  Click on "Pull requests" to see any code changes they suggested
 
 ### How to Use the Feedback
 
@@ -62,8 +80,6 @@ If you spot a bug or have an idea for improvement, you can suggest specific chan
 - Ask questions if something isn't clear (you can reply to issues and pull requests)
 - Consider implementing suggested improvements
 - Remember: feedback is meant to help you learn, not to criticize you personally
-
-
 
 ## Tips
 
@@ -98,15 +114,13 @@ The [rOpenSci](https://devguide.ropensci.org/softwarereview_intro.html) initiati
 - Feel free to ask follow-up questions
 - Use the feedback to improve your next assignment
 
-
-
 ## Getting Help
 
 If you get stuck:
 
-1. Ask a classmate
-2. Ask your teacher during lab sessions or through the Moodle forum
-3. Check the GitHub help documentation
-4. Remember: everyone finds GitHub confusing at first!
+1.  Ask a classmate
+2.  Ask your teacher during lab sessions or through the Moodle forum
+3.  Check the GitHub help documentation
+4.  Remember: everyone finds GitHub confusing at first!
 
 Remember: The goal isn't to become a GitHub expert overnight, but to learn from each other and improve your coding skills together!
