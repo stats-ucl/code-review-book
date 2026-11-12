@@ -27,6 +27,7 @@ You are expected to answer some questions about the code you're reviewing, such 
 **How to do this:**
 
 1.  Click the link your teacher sends you to access the code (files are located in the `submission/` folder)
+![submission folder](screenshots/Screenshot%202026-11-11%20203039.png)
 
 2.  Look for a button or link that says "Issues"
 
@@ -44,7 +45,7 @@ If you spot a bug or have an idea for improvement, you can suggest specific chan
 
 **How to do this with Pull Requests (PRs):**
 
-1.  Find the code file you want to change inside the `submission/` folder ![submission folder](screenshots/Screenshot%202026-11-11%20203039.png)
+1.  Find the code file you want to change inside the `submission/` folder 
 
 2.  Click the edit button (pencil icon)
 
